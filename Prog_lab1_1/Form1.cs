@@ -1,6 +1,3 @@
-using System.Drawing;
-using System.Windows.Forms;
-
 namespace Prog_lab1_1
 {
     public partial class Form1 : Form
@@ -26,21 +23,21 @@ namespace Prog_lab1_1
             dataGridViewGeneration.Rows.Clear();
             dataGridViewGeneration.Columns.Clear();
 
-            for (int columnCounter = 0; columnCounter < column; ++columnCounter)
+            for (int columnAddCounter = 0; columnAddCounter < column; ++columnAddCounter)
             {
                 dataGridViewGeneration.Columns.Add("", "");
             }
-            for (int rowCounter = 0; rowCounter < row - 1; ++rowCounter)
+            for (int rowAddCounter = 0; rowAddCounter < row - 1; ++rowAddCounter)
             {
                 dataGridViewGeneration.Rows.Add();
             }
             
-            for (int rowCounter = 0; rowCounter < dataGridViewGeneration.RowCount; ++rowCounter)
+            for (int rowGenCounter = 0; rowGenCounter < dataGridViewGeneration.RowCount; ++rowGenCounter)
             {
-                for (int columnCounter = 0; columnCounter < dataGridViewGeneration.ColumnCount; ++columnCounter)
+                for (int columnGenCounter = 0; columnGenCounter < dataGridViewGeneration.ColumnCount; ++columnGenCounter)
                 {
-                    matrix[rowCounter, columnCounter] = random.Next(-100, 100);
-                    dataGridViewGeneration.Rows[rowCounter].Cells[columnCounter].Value = matrix[rowCounter, columnCounter].ToString();
+                    matrix[rowGenCounter, columnGenCounter] = random.Next(-100, 100);
+                    dataGridViewGeneration.Rows[rowGenCounter].Cells[columnGenCounter].Value = matrix[rowGenCounter, columnGenCounter].ToString();
                 }
             }
             buttonChange.Enabled = true;
@@ -50,11 +47,12 @@ namespace Prog_lab1_1
         {
             int temp;
             int columnCount = matrix.GetLength(1);
-            for (int counter = 0; counter < columnCount; ++counter)
+
+            for (int columnCounter = 0; columnCounter < columnCount; ++columnCounter)
             {
-                temp = matrix[firstRow, counter];
-                matrix[firstRow, counter] = matrix[rowWithMaxEl, counter];
-                matrix[rowWithMaxEl, counter] = temp;
+                temp = matrix[firstRow, columnCounter];
+                matrix[firstRow, columnCounter] = matrix[rowWithMaxEl, columnCounter];
+                matrix[rowWithMaxEl, columnCounter] = temp;
             }
         }
 
@@ -63,11 +61,11 @@ namespace Prog_lab1_1
             int temp;
             int rowCount = matrix.GetLength(0);
 
-            for (int counter = 0; counter < rowCount; ++counter)
+            for (int rowCounter = 0; rowCounter < rowCount; ++rowCounter)
             {
-                temp = matrix[counter, firstColumn];
-                matrix[counter, firstColumn] = matrix[counter, columnWithMaxEl];
-                matrix[counter, columnWithMaxEl] = temp;
+                temp = matrix[rowCounter, firstColumn];
+                matrix[rowCounter, firstColumn] = matrix[rowCounter, columnWithMaxEl];
+                matrix[rowCounter, columnWithMaxEl] = temp;
             }
         }
 
@@ -75,13 +73,18 @@ namespace Prog_lab1_1
         {
             int rowIndex = -1;
             int colIndex = -1;
-            int? maxVal = null;
-            for (int rowCounter = 0; rowCounter < matrix.GetLength(0); ++rowCounter)
+            int rowCount = matrix.GetLength(0);
+            int columnCount = matrix.GetLength(1);
+            int maxVal = matrix[0, 0];
+            int firstRow = 0;
+            int firstColumn = 0;
+
+            for (int rowCounter = 0; rowCounter < rowCount; ++rowCounter)
             {
-                for (int columnCounter = 0; columnCounter < matrix.GetLength(1); ++columnCounter)
+                for (int columnCounter = 0; columnCounter < columnCount; ++columnCounter)
                 {
                     int thisNum = matrix[rowCounter, columnCounter];
-                    if (!maxVal.HasValue || thisNum > maxVal.Value)
+                    if (thisNum > maxVal)
                     {
                         maxVal = thisNum;
                         rowIndex = rowCounter;
@@ -90,8 +93,8 @@ namespace Prog_lab1_1
                 }
             }
 
-            if (rowIndex != 0) ChangeRows(matrix, 0, rowIndex);
-            if (colIndex != 0) ChangeColumns(matrix, 0, colIndex);
+            if (rowIndex != firstRow) ChangeRows(matrix, firstRow, rowIndex);
+            if (colIndex != firstColumn) ChangeColumns(matrix, firstColumn, colIndex);
         }
 
         private void ButtonChange_Click(object sender, EventArgs e)
@@ -99,11 +102,12 @@ namespace Prog_lab1_1
             int column = 5;
             int row = 4;
             int[,] matrix = new int[row, column];
-            for (int i = 0; i < row; ++i)
+
+            for (int rowMatrixCounter = 0; rowMatrixCounter < row; ++rowMatrixCounter)
             {
-                for (int j = 0; j < column; ++j)
+                for (int columnMatrixCounter = 0; columnMatrixCounter < column; ++columnMatrixCounter)
                 {
-                    matrix[i, j] = Convert.ToInt32(dataGridViewGeneration.Rows[i].Cells[j].Value);
+                    matrix[rowMatrixCounter, columnMatrixCounter] = Convert.ToInt32(dataGridViewGeneration.Rows[rowMatrixCounter].Cells[columnMatrixCounter].Value);
                 }
             }
 
@@ -112,20 +116,20 @@ namespace Prog_lab1_1
             dataGridViewChange.Rows.Clear();
             dataGridViewChange.Columns.Clear();
 
-            for (int i = 0; i < column; ++i)
+            for (int columnAddCounter = 0; columnAddCounter < column; ++columnAddCounter)
             {
                 dataGridViewChange.Columns.Add("", "");
             }
-            for (int j = 0; j < row - 1; ++j)
+            for (int rowAddCounter = 0; rowAddCounter < row - 1; ++rowAddCounter)
             {
                 dataGridViewChange.Rows.Add();
             }
 
-            for (int i = 0; i < dataGridViewChange.RowCount; ++i)
+            for (int rowChangeCounter = 0; rowChangeCounter < dataGridViewChange.RowCount; ++rowChangeCounter)
             {
-                for (int j = 0; j < dataGridViewChange.ColumnCount; ++j)
+                for (int colunmChangeCounter = 0; colunmChangeCounter < dataGridViewChange.ColumnCount; ++colunmChangeCounter)
                 {
-                    dataGridViewChange.Rows[i].Cells[j].Value = matrix[i, j].ToString();
+                    dataGridViewChange.Rows[rowChangeCounter].Cells[colunmChangeCounter].Value = matrix[rowChangeCounter, colunmChangeCounter].ToString();
                 }
             }
         }
